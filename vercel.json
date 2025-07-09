@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/",
-      "destination": "/college_admission_report.html"
+      "destination": "/index.html"
     }
   ]
 } 
