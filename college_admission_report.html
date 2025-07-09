@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>江西省高考志愿填报分析报告</title>
+    <style>
+        @media print {
+            body { margin: 0; }
+            .no-print { display: none; }
+            .page-break { page-break-before: always; }
+        }
+        
+        body {
+            font-family: 'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f9f9f9;
+        }
+        
+        .report-container {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #2c5aa0;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            color: #2c5aa0;
+            font-size: 28px;
+            margin: 0;
+            font-weight: bold;
+        }
+        
+        .header .subtitle {
+            color: #666;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        
+        .basic-info {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        
+        .basic-info h2 {
+            margin-top: 0;
+            color: white;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .info-item {
+            background: rgba(255,255,255,0.1);
+            padding: 10px;
+            border-radius: 5px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+        }
+        
+        .section h2 {
+            color: #2c5aa0;
+            font-size: 22px;
+            border-left: 4px solid #2c5aa0;
+            padding-left: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .section h3 {
+            color: #4a90e2;
+            font-size: 18px;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+        
+        .university-list {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .university-item {
+            background: white;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border-left: 4px solid #4a90e2;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .university-name {
+            font-weight: bold;
+            color: #2c5aa0;
+            font-size: 16px;
+        }
+        
+        .university-details {
+            margin-top: 8px;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .possibility {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        
+        .high-possibility {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .medium-possibility {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .low-possibility {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .special-analysis {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            padding: 25px;
+            border-radius: 10px;
+            margin-top: 30px;
+        }
+        
+        .special-analysis h2 {
+            color: #c41e3a;
+            border-left: 4px solid #c41e3a;
+        }
+        
+        .analysis-item {
+            background: rgba(255,255,255,0.9);
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+        
+        .analysis-item h3 {
+            color: #c41e3a;
+            margin-top: 0;
+        }
+        
+        .strategy-list {
+            margin-top: 10px;
+        }
+        
+        .strategy-list li {
+            margin-bottom: 5px;
+        }
+        
+        .print-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #2c5aa0;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        
+        .print-button:hover {
+            background: #1e3f6f;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            color: #888;
+            font-size: 14px;
+        }
+        
+        .recommendation {
+            background: #e8f5e8;
+            border: 1px solid #4caf50;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        
+        .recommendation h4 {
+            color: #2e7d32;
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <button class="print-button no-print" onclick="window.print()">打印/保存为PDF</button>
+    
+    <div class="report-container">
+        <div class="header">
+            <h1>江西省高考志愿填报分析报告</h1>
+            <div class="subtitle">个性化升学规划指导方案</div>
+        </div>
+        
+        <div class="basic-info">
+            <h2>考生基本信息</h2>
+            <div class="info-grid">
+                <div class="info-item">
+                    <strong>高考总分：</strong>597分
+                </div>
+                <div class="info-item">
+                    <strong>科目类型：</strong>历史类
+                </div>
+                <div class="info-item">
+                    <strong>全省排名：</strong>2468名
+                </div>
+                <div class="info-item">
+                    <strong>超特殊类型线：</strong>65分
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>一、冲刺院校推荐（30+所）</h2>
+            
+            <h3>985/211名校冲刺组</h3>
+            <div class="university-list">
+                <div class="university-item">
+                    <div class="university-name">华东师范大学 <span class="possibility medium-possibility">60%</span></div>
+                    <div class="university-details">建议选择相对冷门专业，如地理科学、心理学等</div>
+                </div>
+                
+                <div class="university-item">
+                    <div class="university-name">中南大学 <span class="possibility medium-possibility">65%</span></div>
+                    <div class="university-details">历史学、哲学专业录取希望较大</div>
+                </div>
+                
+                <div class="university-item">
+                    <div class="university-name">湖南大学 <span class="possibility medium-possibility">70%</span></div>
+                    <div class="university-details">新闻传播学、中国语言文学专业可考虑</div>
+                </div>
+                
+                <div class="university-item">
+                    <div class="university-name">重庆大学 <span class="possibility medium-possibility">65%</span></div>
+                    <div class="university-details">人文社科类专业有希望</div>
+                </div>
+                
+                <div class="university-item">
+                    <div class="university-name">西北农林科技大学 <span class="possibility high-possibility">75%</span></div>
+                    <div class="university-details">农业历史、农业管理等专业</div>
+                </div>
+                
+                <div class="university-item">
+                    <div class="university-name">兰州大学 <span class="possibility medium-possibility">70%</span></div>
+                    <div class="university-details">历史学、哲学专业录取概率较高</div>
+                </div>
+                
+                <div class="university-item">
+                    <div class="university-name">东北大学 <span class="possibility medium-possibility">70%</span></div>
+                    <div class="university-details">公共管理、马克思主义理论专业</div>
+                </div>
+                
+                <div class="university-item">
+                    <div class="university-name">华南理工大学 <span class="possibility low-possibility">50%</span></div>
+                    <div class="university-details">工商管理、公共管理专业</div>
+                </div>
+                
+                <div class="university-item">
+                    <div class="university-name">中国海洋大学 <span class="possibility high-possibility">75%</span></div>
+                    <div class="university-details">海洋史、文学专业有优势</div>
+                </div>
+                
+                <div class="university-item">
+                    <div class="university-name">西北大学 <span class="possibility medium-possibility">70%</span></div>
+                    <div class="university-details">历史学、考古学专业实力强</div>
+                </div>
+            </div>
+            
+            <h3>优质211院校</h3>
+            <div class="university-list">
+                <div class="university-item">
+                    <div class="university-name">华中师范大学 <span class="possibility high-possibility">75%</span></div>
+                    <div class="university-details">师范类专业首选，教育学、心理学专业优势明显</div>
+                </div>
+                
+                <div class="university-item">
+                    <div class="university-name">陕西师范大学 <span class="possibility high-possibility">80%</span></div>
+                    <div class="university-details">师范类专业录取希望大</div>
+                </div>
+                
+                <div class="university-item">
+                    <div class="university-name">东北师范大学 <span class="possibility high-possibility">80%</span></div>
+                    <div class="university-details">教育学、历史学专业实力强</div>
+                </div>
+                
+                <div class="university-item">
+                    <div class="university-name">南京师范大学 <span class="possibility medium-possibility">70%</span></div>
+                    <div class="university-details">师范类专业竞争激烈但有希望</div>
+                </div>
+                
+                <div class="university-item">
+                    <div class="university-name">华北电力大学 <span class="possibility high-possibility">75%</span></div>
+                    <div class="university-details">经济管理类专业</div>
+                </div>
+                
+                <div class="university-item">
+                    <div class="university-name">西南交通大学 <span class="possibility high-possibility">75%</span></div>
+                    <div class="university-details">交通运输管理、经济学专业</div>
+                </div>
+                
+                <div class="university-item">
+                    <div class="university-name">长安大学 <span class="possibility high-possibility">80%</span></div>
+                    <div class="university-details">工程管理、经济学专业</div>
+                </div>
+                
+                <div class="university-item">
+                    <div class="university-name">中国矿业大学 <span class="possibility high-possibility">80%</span></div>
+                    <div class="university-details">管理科学与工程专业</div>
+                </div>
+                
+                <div class="university-item">
+                    <div class="university-name">河海大学 <span class="possibility high-possibility">75%</span></div>
+                    <div class="university-details">公共管理、工商管理专业</div>
+                </div>
+                
+                <div class="university-item">
+                    <div class="university-name">南京农业大学 <span class="possibility high-possibility">80%</span></div>
+                    <div class="university-details">农业经济管理专业</div>
+                </div>
+                
+                <div class="university-item">
+                    <div class="university-name">华中农业大学 <span class="possibility high-possibility">80%</span></div>
+                    <div class="university-details">农林经济管理专业</div>
+                </div>
+                
+                <div class="university-item">
+                    <div class="university-name">西南大学 <span class="possibility high-possibility">75%</span></div>
+                    <div class="university-details">教育学、心理学专业</div>
+                </div>
+                
+                <div class="university-item">
+                    <div class="university-name">云南大学 <span class="possibility high-possibility">75%</span></div>
+                    <div class="university-details">民族学、历史学专业</div>
+                </div>
+                
+                <div class="university-item">
+                    <div class="university-name">郑州大学 <span class="possibility high-possibility">80%</span></div>
+                    <div class="university-details">历史学、新闻传播学专业</div>
+                </div>
+                
+                <div class="university-item">
+                    <div class="university-name">福州大学 <span class="possibility high-possibility">80%</span></div>
+                    <div class="university-details">工商管理、公共管理专业</div>
+                </div>
+                
+                <div class="university-item">
+                    <div class="university-name">安徽大学 <span class="possibility high-possibility">80%</span></div>
+                    <div class="university-details">文学、历史学专业</div>
+                </div>
+                
+                <div class="university-item">
+                    <div class="university-name">南昌大学 <span class="possibility high-possibility">85%</span></div>
+                    <div class="university-details">本省院校优势，各文科专业都可考虑</div>
+                </div>
+                
+                <div class="university-item">
+                    <div class="university-name">苏州大学 <span class="possibility medium-possibility">70%</span></div>
+                    <div class="university-details">文学、历史学专业实力强</div>
+                </div>
+                
+                <div class="university-item">
+                    <div class="university-name">上海大学 <span class="possibility medium-possibility">65%</span></div>
+                    <div class="university-details">社会学、新闻传播学专业</div>
+                </div>
+                
+                <div class="university-item">
+                    <div class="university-name">深圳大学 <span class="possibility medium-possibility">70%</span></div>
+                    <div class="university-details">工商管理、新闻传播学专业</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="page-break"></div>
+        
+        <div class="section">
+            <h2>二、稳妥院校推荐（30+所）</h2>
+            
+            <h3>本省稳妥录取组</h3>
+            <div class="university-list">
+                <div class="university-item">
+                    <div class="university-name">江西师范大学 <span class="possibility high-possibility">95%</span></div>
+                    <div class="university-details">本省师范类首选，教育学、心理学专业优势明显</div>
+                </div>
+                
+                <div class="university-item">
+                    <div class="university-name">江西财经大学 <span class="possibility high-possibility">95%</span></div>
+                    <div class="university-details">经济学、管理学专业实力强</div>
+                </div>
+                
+                <div class="university-item">
+                    <div class="university-name">华东交通大学 <span class="possibility high-possibility">98%</span></div>
+                    <div class="university-details">交通运输、经济管理专业</div>
+                </div>
+                
+                <div class="university-item">
+                    <div class="university-name">江西理工大学 <span class="possibility high-possibility">98%</span></div>
+                    <div class="university-details">工商管理、经济学专业</div>
+                </div>
+                
+                <div class="university-item">
+                    <div class="university-name">南昌航空大学 <span class="possibility high-possibility">98%</span></div>
+                    <div class="university-details">经济管理类专业</div>
+                </div>
+                
+                <div class="university-item">
+                    <div class="university-name">东华理工大学 <span class="possibility high-possibility">98%</span></div>
+                    <div class="university-details">经济学、管理学专业</div>
+                </div>
+                
+                <div class="university-item">
+                    <div class="university-name">江西农业大学 <span class="possibility high-possibility">98%</span></div>
+                    <div class="university-details">农林经济管理专业</div>
+                </div>
+                
+                <div class="university-item">
+                    <div class="university-name">江西中医药大学 <span class="possibility high-possibility">95%</span></div>
+                    <div class="university-details">中医学、护理学专业</div>
+                </div>
+                
+                <div class="university-item">
+                    <div class="university-name">赣南师范大学 <span class="possibility high-possibility">98%</span></div>
+                    <div class="university-details">师范类专业</div>
+                </div>
+                
+                <div class="university-item">
+                    <div class="university-name">井冈山大学 <span class="possibility high-possibility">98%</span></div>
+                    <div class="university-details">师范类、管理类专业</div>
+                </div>
+            </div>
+            
+            <h3>省外稳妥院校</h3>
+            <div class="university-list">
+                <div class="university-item">
+                    <div class="university-name">河南大学 <span class="possibility high-possibility">90%</span></div>
+                    <div class="university-details">历史学、文学专业实力强</div>
+                </div>
+                
+                <div class="university-item">
+                    <div class="university-name">山西大学 <span class="possibility high-possibility">90%</span></div>
+                    <div class="university-details">历史学、哲学专业</div>
+                </div>
+                
+                <div class="university-item">
+                    <div class="university-name">河北大学 <span class="possibility high-possibility">90%</span></div>
+                    <div class="university-details">新闻传播学、历史学专业</div>
+                </div>
+                
+                <div class="university-item">
+                    <div class="university-name">湘潭大学 <span class="possibility high-possibility">90%</span></div>
+                    <div class="university-details">历史学、哲学专业</div>
+                </div>
+                
+                <div class="university-item">
+                    <div class="university-name">扬州大学 <span class="possibility high-possibility">90%</span></div>
+                    <div class="university-details">师范类专业</div>
+                </div>
+                
+                <div class="university-item">
+                    <div class="university-name">江苏大学 <span class="possibility high-possibility">90%</span></div>
+                    <div class="university-details">工商管理、公共管理专业</div>
+                </div>
+                
+                <div class="university-item">
+                    <div class="university-name">浙江工业大学 <span class="possibility high-possibility">90%</span></div>
+                    <div class="university-details">经济学、管理学专业</div>
+                </div>
+                
+                <div class="university-item">
+                    <div class="university-name">杭州师范大学 <span class="possibility high-possibility">90%</span></div>
+                    <div class="university-details">师范类专业</div>
+                </div>
+                
+                <div class="university-item">
+                    <div class="university-name">温州大学 <span class="possibility high-possibility">92%</span></div>
+                    <div class="university-details">师范类、经济管理专业</div>
+                </div>
+                
+                <div class="university-item">
+                    <div class="university-name">宁波大学 <span class="possibility high-possibility">88%</span></div>
+                    <div class="university-details">海洋相关专业、经济学专业</div>
+                </div>
+                
+                <div class="university-item">
+                    <div class="university-name">广州大学 <span class="possibility high-possibility">88%</span></div>
+                    <div class="university-details">师范类、经济管理专业</div>
+                </div>
+                
+                <div class="university-item">
+                    <div class="university-name">汕头大学 <span class="possibility high-possibility">85%</span></div>
+                    <div class="university-details">新闻传播学、文学专业</div>
+                </div>
+                
+                <div class="university-item">
+                    <div class="university-name">广东财经大学 <span class="possibility high-possibility">90%</span></div>
+                    <div class="university-details">经济学、管理学专业</div>
+                </div>
+                
+                <div class="university-item">
+                    <div class="university-name">重庆师范大学 <span class="possibility high-possibility">90%</span></div>
+                    <div class="university-details">师范类专业</div>
+                </div>
+                
+                <div class="university-item">
+                    <div class="university-name">西南民族大学 <span class="possibility high-possibility">90%</span></div>
+                    <div class="university-details">民族学、历史学专业</div>
+                </div>
+                
+                <div class="university-item">
+                    <div class="university-name">四川师范大学 <span class="possibility high-possibility">90%</span></div>
+                    <div class="university-details">师范类专业</div>
+                </div>
+                
+                <div class="university-item">
+                    <div class="university-name">昆明理工大学 <span class="possibility high-possibility">90%</span></div>
+                    <div class="university-details">管理学、经济学专业</div>
+                </div>
+                
+                <div class="university-item">
+                    <div class="university-name">云南师范大学 <span class="possibility high-possibility">90%</span></div>
+                    <div class="university-details">师范类专业</div>
+                </div>
+                
+                <div class="university-item">
+                    <div class="university-name">贵州大学 <span class="possibility high-possibility">85%</span></div>
+                    <div class="university-details">历史学、哲学专业</div>
+                </div>
+                
+                <div class="university-item">
+                    <div class="university-name">海南大学 <span class="possibility high-possibility">85%</span></div>
+                    <div class="university-details">旅游管理、经济学专业</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="special-analysis">
+            <h2>三、华南师范大学和暨南大学冲刺专项分析</h2>
+            
+            <div class="analysis-item">
+                <h3>华南师范大学冲刺分析</h3>
+                <p><strong>录取可能性：60-65%</strong></p>
+                <p><strong>2024年录取情况：</strong>华南师范大学师范专业历史类投档分为587分，普通类专业历史类投档分为574分</p>
+                <p><strong>冲刺策略：</strong></p>
+                <ul class="strategy-list">
+                    <li>您的597分高于其师范专业投档线10分，有一定优势</li>
+                    <li>建议优先选择师范类专业，如教育学、心理学、历史学(师范)等</li>
+                    <li>可考虑汕尾校区，分数要求相对较低</li>
+                    <li>专业选择上避开热门的汉语言文学、英语等专业</li>
+                </ul>
+            </div>
+            
+            <div class="analysis-item">
+                <h3>暨南大学冲刺分析</h3>
+                <p><strong>录取可能性：50-55%</strong></p>
+                <p><strong>历史录取参考：</strong>2023年暨南大学在广东历史类录取分数线为592分</p>
+                <p><strong>冲刺策略：</strong></p>
+                <ul class="strategy-list">
+                    <li>您的分数略高于历年录取线，但竞争激烈</li>
+                    <li>建议选择相对冷门的专业，如哲学、历史学、社会学等</li>
+                    <li>避开新闻传播学、经济学等热门专业</li>
+                    <li>可考虑中外合作办学项目，分数要求相对较低</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="recommendation">
+            <h4>总体建议</h4>
+            <ul>
+                <li>冲刺华南师大成功率更高，建议作为重点冲刺目标</li>
+                <li>暨南大学可以尝试，但要做好专业调剂的准备</li>
+                <li>两所学校都要合理选择专业，避开过热专业</li>
+                <li>建议志愿填报时华南师大排在暨南大学前面</li>
+                <li>您的成绩非常优秀，有很大机会进入心仪的大学</li>
+                <li>建议合理搭配冲刺、稳妥和保底院校，确保录取无忧</li>
+            </ul>
+        </div>
+        
+        <div class="footer">
+            <p>本报告基于历年录取数据分析生成，仅供参考。实际录取结果受多种因素影响，请结合官方招生信息进行最终决策。</p>
+            <p>报告生成时间：2025年6月27日</p>
+        </div>
+    </div>
+</body>
+</html>
