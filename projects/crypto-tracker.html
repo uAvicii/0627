@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>加密货币追踪器 | 项目详情</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #00ff88;
+            --secondary-color: #ff0080;
+            --accent-color: #0080ff;
+            --warning-color: #ffaa00;
+            --bg-dark: #0a0a0a;
+            --bg-darker: #050505;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --text-accent: #00ff88;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+        }
+
+        .back-link:hover {
+            gap: 1rem;
+            transform: translateX(-5px);
+        }
+
+        .project-header {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 170, 0, 0.1) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        .project-title {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, var(--warning-color), var(--primary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            z-index: 1;
+        }
+
+        .project-subtitle {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .project-meta {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+        }
+
+        .meta-icon {
+            color: var(--warning-color);
+        }
+
+        .project-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.5rem;
+            background: var(--warning-color);
+            color: var(--bg-dark);
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .project-link:hover {
+            background: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .project-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .content-section {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: var(--warning-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .crypto-dashboard {
+            background: var(--bg-darker);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .crypto-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .crypto-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .crypto-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(255, 170, 0, 0.2);
+        }
+
+        .crypto-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .crypto-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--warning-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--bg-dark);
+            font-weight: bold;
+        }
+
+        .crypto-info h3 {
+            color: var(--text-primary);
+            margin-bottom: 0.2rem;
+        }
+
+        .crypto-info p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .crypto-price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .crypto-change {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .change-positive {
+            color: var(--primary-color);
+        }
+
+        .change-negative {
+            color: var(--secondary-color);
+        }
+
+        .feature-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .feature-item:hover {
+            background: rgba(255, 170, 0, 0.1);
+            transform: translateX(5px);
+        }
+
+        .feature-icon {
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            margin-top: 0.2rem;
+        }
+
+        .feature-content h4 {
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-content p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .tech-tag {
+            background: var(--warning-color);
+            color: var(--bg-dark);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .code-block {
+            background: var(--bg-darker);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+            overflow-x: auto;
+        }
+
+        .code-block pre {
+            color: var(--text-primary);
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .code-block code {
+            color: var(--warning-color);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .project-header {
+                padding: 2rem;
+            }
+
+            .project-title {
+                font-size: 2rem;
+            }
+
+            .project-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .crypto-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../index.html" class="back-link">
+            <i class="fas fa-arrow-left"></i>
+            返回首页
+        </a>
+
+        <header class="project-header">
+            <h1 class="project-title">加密货币追踪器</h1>
+            <p class="project-subtitle">实时监控加密货币价格和市场动态</p>
+            
+            <div class="project-meta">
+                <div class="meta-item">
+                    <i class="fas fa-calendar meta-icon"></i>
+                    <span>2023年8月 - 2023年10月</span>
+                </div>
+                <div class="meta-item">
+                    <i class="fas fa-users meta-icon"></i>
+                    <span>个人项目</span>
+                </div>
+                <div class="meta-item">
+                    <i class="fas fa-chart-line meta-icon"></i>
+                    <span>数据可视化</span>
+                </div>
+                <div class="meta-item">
+                    <i class="fas fa-fire meta-icon"></i>
+                    <span>热门项目</span>
+                </div>
+            </div>
+
+            <div class="project-links">
+                <a href="#" class="project-link">
+                    <i class="fas fa-external-link-alt"></i>
+                    在线演示
+                </a>
+                <a href="#" class="project-link">
+                    <i class="fab fa-github"></i>
+                    GitHub
+                </a>
+            </div>
+        </header>
+
+        <div class="project-content">
+            <div class="main-content">
+                <div class="content-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-info-circle"></i>
+                        项目简介
+                    </h2>
+                    <p>加密货币追踪器是一个实时监控加密货币价格和市场动态的Web应用。通过集成多个主流交易所的API，为用户提供准确、及时的价格信息和市场分析。</p>
+                    
+                    <p>应用支持主流加密货币的实时价格追踪、历史数据分析、价格预警等功能。采用现代化的数据可视化技术，为用户提供直观的图表和分析工具，帮助投资者做出更明智的决策。</p>
+                </div>
+
+                <div class="content-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-rocket"></i>
+                        核心功能
+                    </h2>
+                    <ul class="feature-list">
+                        <li class="feature-item">
+                            <i class="fas fa-chart-line feature-icon"></i>
+                            <div class="feature-content">
+                                <h4>实时价格监控</h4>
+                                <p>集成多个交易所API，提供实时价格数据和市场深度信息。</p>
+                            </div>
+                        </li>
+                        <li class="feature-item">
+                            <i class="fas fa-bell feature-icon"></i>
+                            <div class="feature-content">
+                                <h4>价格预警</h4>
+                                <p>设置价格预警，当价格达到目标值时自动发送通知。</p>
+                            </div>
+                        </li>
+                        <li class="feature-item">
+                            <i class="fas fa-history feature-icon"></i>
+                            <div class="feature-content">
+                                <h4>历史数据分析</h4>
+                                <p>查看历史价格走势，支持多种时间周期的数据分析。</p>
+                            </div>
+                        </li>
+                        <li class="feature-item">
+                            <i class="fas fa-wallet feature-icon"></i>
+                            <div class="feature-content">
+                                <h4>投资组合管理</h4>
+                                <p>跟踪个人投资组合，计算收益率和风险指标。</p>
+                            </div>
+                        </li>
+                        <li class="feature-item">
+                            <i class="fas fa-newspaper feature-icon"></i>
+                            <div class="feature-content">
+                                <h4>新闻资讯</h4>
+                                <p>聚合加密货币相关新闻，及时了解市场动态。</p>
+                            </div>
+                        </li>
+                        <li class="feature-item">
+                            <i class="fas fa-mobile-alt feature-icon"></i>
+                            <div class="feature-content">
+                                <h4>移动适配</h4>
+                                <p>完美适配移动设备，随时随地查看市场行情。</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="content-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-chart-bar"></i>
+                        实时行情
+                    </h2>
+                    <p>以下是主要加密货币的实时行情展示：</p>
+                    
+                    <div class="crypto-dashboard">
+                        <div class="crypto-grid">
+                            <div class="crypto-card">
+                                <div class="crypto-header">
+                                    <div class="crypto-icon">₿</div>
+                                    <div class="crypto-info">
+                                        <h3>Bitcoin</h3>
+                                        <p>BTC</p>
+                                    </div>
+                                </div>
+                                <div class="crypto-price">$43,250.00</div>
+                                <div class="crypto-change change-positive">
+                                    <i class="fas fa-arrow-up"></i>
+                                    +2.45%
+                                </div>
+                            </div>
+                            
+                            <div class="crypto-card">
+                                <div class="crypto-header">
+                                    <div class="crypto-icon">Ξ</div>
+                                    <div class="crypto-info">
+                                        <h3>Ethereum</h3>
+                                        <p>ETH</p>
+                                    </div>
+                                </div>
+                                <div class="crypto-price">$2,580.00</div>
+                                <div class="crypto-change change-negative">
+                                    <i class="fas fa-arrow-down"></i>
+                                    -1.23%
+                                </div>
+                            </div>
+                            
+                            <div class="crypto-card">
+                                <div class="crypto-header">
+                                    <div class="crypto-icon">◉</div>
+                                    <div class="crypto-info">
+                                        <h3>Binance Coin</h3>
+                                        <p>BNB</p>
+                                    </div>
+                                </div>
+                                <div class="crypto-price">$315.20</div>
+                                <div class="crypto-change change-positive">
+                                    <i class="fas fa-arrow-up"></i>
+                                    +0.87%
+                                </div>
+                            </div>
+                            
+                            <div class="crypto-card">
+                                <div class="crypto-header">
+                                    <div class="crypto-icon">◎</div>
+                                    <div class="crypto-info">
+                                        <h3>Solana</h3>
+                                        <p>SOL</p>
+                                    </div>
+                                </div>
+                                <div class="crypto-price">$98.50</div>
+                                <div class="crypto-change change-positive">
+                                    <i class="fas fa-arrow-up"></i>
+                                    +5.67%
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-code"></i>
+                        技术实现
+                    </h2>
+                    <p>应用使用React和TypeScript构建前端，通过WebSocket连接实现实时数据更新。后端使用Node.js处理API请求和数据聚合。</p>
+                    
+                    <div class="code-block">
+                        <pre><code>// WebSocket连接实现实时价格更新
+const useWebSocket = (url: string) => {
+  const [data, setData] = useState(null);
+  const [connected, setConnected] = useState(false);
+  
+  useEffect(() => {
+    const ws = new WebSocket(url);
+    
+    ws.onopen = () => {
+      setConnected(true);
+      console.log('WebSocket connected');
+    };
+    
+    ws.onmessage = (event) => {
+      const priceData = JSON.parse(event.data);
+      setData(priceData);
+    };
+    
+    ws.onclose = () => {
+      setConnected(false);
+      console.log('WebSocket disconnected');
+    };
+    
+    return () => ws.close();
+  }, [url]);
+  
+  return { data, connected };
+};</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar">
+                <div class="content-section">
+                    <h3 class="section-title">
+                        <i class="fas fa-tools"></i>
+                        技术栈
+                    </h3>
+                    <div class="tech-stack">
+                        <span class="tech-tag">React</span>
+                        <span class="tech-tag">TypeScript</span>
+                        <span class="tech-tag">Node.js</span>
+                        <span class="tech-tag">WebSocket</span>
+                        <span class="tech-tag">Chart.js</span>
+                        <span class="tech-tag">Express</span>
+                        <span class="tech-tag">Redis</span>
+                        <span class="tech-tag">Docker</span>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <h3 class="section-title">
+                        <i class="fas fa-exchange-alt"></i>
+                        支持交易所
+                    </h3>
+                    <ul class="feature-list">
+                        <li class="feature-item">
+                            <i class="fas fa-coins feature-icon"></i>
+                            <div class="feature-content">
+                                <h4>Binance</h4>
+                                <p>全球最大加密货币交易所</p>
+                            </div>
+                        </li>
+                        <li class="feature-item">
+                            <i class="fas fa-coins feature-icon"></i>
+                            <div class="feature-content">
+                                <h4>Coinbase</h4>
+                                <p>美国主流交易平台</p>
+                            </div>
+                        </li>
+                        <li class="feature-item">
+                            <i class="fas fa-coins feature-icon"></i>
+                            <div class="feature-content">
+                                <h4>Kraken</h4>
+                                <p>欧洲知名交易所</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="content-section">
+                    <h3 class="section-title">
+                        <i class="fas fa-chart-pie"></i>
+                        数据来源
+                    </h3>
+                    <ul class="feature-list">
+                        <li class="feature-item">
+                            <i class="fas fa-database feature-icon"></i>
+                            <div class="feature-content">
+                                <h4>CoinGecko API</h4>
+                                <p>市场数据和价格信息</p>
+                            </div>
+                        </li>
+                        <li class="feature-item">
+                            <i class="fas fa-newspaper feature-icon"></i>
+                            <div class="feature-content">
+                                <h4>CryptoNews API</h4>
+                                <p>新闻和市场分析</p>
+                            </div>
+                        </li>
+                        <li class="feature-item">
+                            <i class="fas fa-chart-line feature-icon"></i>
+                            <div class="feature-content">
+                                <h4>TradingView</h4>
+                                <p>技术分析图表</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 模拟实时价格更新
+        function updatePrices() {
+            const priceElements = document.querySelectorAll('.crypto-price');
+            const changeElements = document.querySelectorAll('.crypto-change');
+            
+            priceElements.forEach((element, index) => {
+                const currentPrice = parseFloat(element.textContent.replace('$', '').replace(',', ''));
+                const change = (Math.random() - 0.5) * 0.02; // -1% to +1%
+                const newPrice = currentPrice * (1 + change);
+                
+                element.textContent = `$${newPrice.toLocaleString('en-US', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                })}`;
+                
+                const changeElement = changeElements[index];
+                const changePercent = (change * 100).toFixed(2);
+                const isPositive = change > 0;
+                
+                changeElement.className = `crypto-change ${isPositive ? 'change-positive' : 'change-negative'}`;
+                changeElement.innerHTML = `
+                    <i class="fas fa-arrow-${isPositive ? 'up' : 'down'}"></i>
+                    ${isPositive ? '+' : ''}${changePercent}%
+                `;
+            });
+        }
+        
+        // 每5秒更新一次价格
+        setInterval(updatePrices, 5000);
+
+        // 页面加载动画
+        window.addEventListener('load', function() {
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach((section, index) => {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(30px)';
+                setTimeout(() => {
+                    section.style.transition = 'all 0.6s ease';
+                    section.style.opacity = '1';
+                    section.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+        });
+
+        // 滚动动画
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.feature-item, .crypto-card').forEach(item => {
+            item.style.opacity = '0';
+            item.style.transform = 'translateY(20px)';
+            item.style.transition = 'all 0.6s ease';
+            observer.observe(item);
+        });
+    </script>
+</body>
+</html>

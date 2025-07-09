@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>技能栈详情 | uAvicii's Digital Sanctuary</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #00ff88;
+            --secondary-color: #ff0080;
+            --accent-color: #0080ff;
+            --bg-dark: #0a0a0a;
+            --bg-darker: #050505;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --text-accent: #00ff88;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+        }
+
+        .back-link:hover {
+            gap: 1rem;
+            transform: translateX(-5px);
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page-subtitle {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+        }
+
+        .skills-categories {
+            display: grid;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .skill-category {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .skill-category:hover {
+            border-color: var(--primary-color);
+            box-shadow: 0 20px 40px rgba(0, 255, 136, 0.1);
+        }
+
+        .category-title {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .category-icon {
+            font-size: 2rem;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .skill-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-color);
+            box-shadow: 0 10px 30px rgba(0, 128, 255, 0.2);
+        }
+
+        .skill-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .skill-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .skill-level {
+            background: var(--primary-color);
+            color: var(--bg-dark);
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .skill-description {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .skill-progress {
+            margin-bottom: 1rem;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            border-radius: 4px;
+            transition: width 1s ease;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .skill-tag {
+            background: rgba(0, 128, 255, 0.2);
+            color: var(--accent-color);
+            padding: 0.3rem 0.8rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+        }
+
+        .experience-section {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+
+        .experience-title {
+            font-size: 1.8rem;
+            color: var(--secondary-color);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 1rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--primary-color);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+            padding-left: 2rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -0.5rem;
+            top: 0.5rem;
+            width: 1rem;
+            height: 1rem;
+            background: var(--primary-color);
+            border-radius: 50%;
+            border: 3px solid var(--bg-dark);
+        }
+
+        .timeline-year {
+            color: var(--primary-color);
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .timeline-content {
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .page-title {
+                font-size: 2rem;
+            }
+            
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .timeline {
+                padding-left: 1rem;
+            }
+            
+            .timeline-item {
+                padding-left: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-link">
+            <i class="fas fa-arrow-left"></i>
+            返回首页
+        </a>
+
+        <header class="page-header">
+            <h1 class="page-title">技能栈详情</h1>
+            <p class="page-subtitle">深入了解我的技术能力和专业经验</p>
+        </header>
+
+        <div class="skills-categories">
+            <!-- 前端开发 -->
+            <div class="skill-category">
+                <h2 class="category-title">
+                    <i class="fab fa-html5 category-icon"></i>
+                    前端开发
+                </h2>
+                <div class="skills-grid">
+                    <div class="skill-card">
+                        <div class="skill-header">
+                            <div class="skill-name">JavaScript</div>
+                            <div class="skill-level">专家</div>
+                        </div>
+                        <div class="skill-description">
+                            精通ES6+语法，熟悉异步编程、闭包、原型链等核心概念，有丰富的前端开发经验。
+                        </div>
+                        <div class="skill-progress">
+                            <div class="progress-label">
+                                <span>熟练度</span>
+                                <span>95%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 95%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-tags">
+                            <span class="skill-tag">ES6+</span>
+                            <span class="skill-tag">异步编程</span>
+                            <span class="skill-tag">DOM操作</span>
+                        </div>
+                    </div>
+
+                    <div class="skill-card">
+                        <div class="skill-header">
+                            <div class="skill-name">React</div>
+                            <div class="skill-level">专家</div>
+                        </div>
+                        <div class="skill-description">
+                            熟练使用React Hooks、Context API、Redux等状态管理工具，能够构建复杂的单页应用。
+                        </div>
+                        <div class="skill-progress">
+                            <div class="progress-label">
+                                <span>熟练度</span>
+                                <span>90%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 90%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-tags">
+                            <span class="skill-tag">Hooks</span>
+                            <span class="skill-tag">Redux</span>
+                            <span class="skill-tag">Next.js</span>
+                        </div>
+                    </div>
+
+                    <div class="skill-card">
+                        <div class="skill-header">
+                            <div class="skill-name">Vue.js</div>
+                            <div class="skill-level">熟练</div>
+                        </div>
+                        <div class="skill-description">
+                            熟悉Vue 3 Composition API、Vuex状态管理、Vue Router路由管理，能够开发响应式Web应用。
+                        </div>
+                        <div class="skill-progress">
+                            <div class="progress-label">
+                                <span>熟练度</span>
+                                <span>85%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 85%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-tags">
+                            <span class="skill-tag">Vue 3</span>
+                            <span class="skill-tag">Vuex</span>
+                            <span class="skill-tag">Nuxt.js</span>
+                        </div>
+                    </div>
+
+                    <div class="skill-card">
+                        <div class="skill-header">
+                            <div class="skill-name">TypeScript</div>
+                            <div class="skill-level">熟练</div>
+                        </div>
+                        <div class="skill-description">
+                            掌握TypeScript类型系统，能够编写类型安全的代码，提高代码质量和开发效率。
+                        </div>
+                        <div class="skill-progress">
+                            <div class="progress-label">
+                                <span>熟练度</span>
+                                <span>80%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 80%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-tags">
+                            <span class="skill-tag">类型系统</span>
+                            <span class="skill-tag">泛型</span>
+                            <span class="skill-tag">装饰器</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 后端开发 -->
+            <div class="skill-category">
+                <h2 class="category-title">
+                    <i class="fas fa-server category-icon"></i>
+                    后端开发
+                </h2>
+                <div class="skills-grid">
+                    <div class="skill-card">
+                        <div class="skill-header">
+                            <div class="skill-name">Node.js</div>
+                            <div class="skill-level">专家</div>
+                        </div>
+                        <div class="skill-description">
+                            精通Node.js后端开发，熟悉Express、Koa等框架，能够构建高性能的API服务。
+                        </div>
+                        <div class="skill-progress">
+                            <div class="progress-label">
+                                <span>熟练度</span>
+                                <span>90%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 90%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-tags">
+                            <span class="skill-tag">Express</span>
+                            <span class="skill-tag">Koa</span>
+                            <span class="skill-tag">Socket.io</span>
+                        </div>
+                    </div>
+
+                    <div class="skill-card">
+                        <div class="skill-header">
+                            <div class="skill-name">Python</div>
+                            <div class="skill-level">熟练</div>
+                        </div>
+                        <div class="skill-description">
+                            熟练使用Python进行后端开发和数据分析，掌握Django、Flask等Web框架。
+                        </div>
+                        <div class="skill-progress">
+                            <div class="progress-label">
+                                <span>熟练度</span>
+                                <span>85%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 85%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-tags">
+                            <span class="skill-tag">Django</span>
+                            <span class="skill-tag">Flask</span>
+                            <span class="skill-tag">数据分析</span>
+                        </div>
+                    </div>
+
+                    <div class="skill-card">
+                        <div class="skill-header">
+                            <div class="skill-name">Go</div>
+                            <div class="skill-level">中级</div>
+                        </div>
+                        <div class="skill-description">
+                            了解Go语言特性，能够开发高并发的微服务应用，熟悉Gin、Echo等框架。
+                        </div>
+                        <div class="skill-progress">
+                            <div class="progress-label">
+                                <span>熟练度</span>
+                                <span>70%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 70%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-tags">
+                            <span class="skill-tag">Gin</span>
+                            <span class="skill-tag">协程</span>
+                            <span class="skill-tag">微服务</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 数据库 -->
+            <div class="skill-category">
+                <h2 class="category-title">
+                    <i class="fas fa-database category-icon"></i>
+                    数据库技术
+                </h2>
+                <div class="skills-grid">
+                    <div class="skill-card">
+                        <div class="skill-header">
+                            <div class="skill-name">MongoDB</div>
+                            <div class="skill-level">熟练</div>
+                        </div>
+                        <div class="skill-description">
+                            熟练使用MongoDB进行NoSQL数据库设计，掌握聚合管道、索引优化等高级特性。
+                        </div>
+                        <div class="skill-progress">
+                            <div class="progress-label">
+                                <span>熟练度</span>
+                                <span>85%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 85%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-tags">
+                            <span class="skill-tag">聚合管道</span>
+                            <span class="skill-tag">索引优化</span>
+                            <span class="skill-tag">副本集</span>
+                        </div>
+                    </div>
+
+                    <div class="skill-card">
+                        <div class="skill-header">
+                            <div class="skill-name">MySQL</div>
+                            <div class="skill-level">熟练</div>
+                        </div>
+                        <div class="skill-description">
+                            熟悉MySQL关系型数据库，能够进行复杂查询优化、事务处理和数据库设计。
+                        </div>
+                        <div class="skill-progress">
+                            <div class="progress-label">
+                                <span>熟练度</span>
+                                <span>80%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 80%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-tags">
+                            <span class="skill-tag">查询优化</span>
+                            <span class="skill-tag">事务处理</span>
+                            <span class="skill-tag">主从复制</span>
+                        </div>
+                    </div>
+
+                    <div class="skill-card">
+                        <div class="skill-header">
+                            <div class="skill-name">Redis</div>
+                            <div class="skill-level">熟练</div>
+                        </div>
+                        <div class="skill-description">
+                            掌握Redis缓存技术，熟悉各种数据结构的使用场景，能够进行性能优化。
+                        </div>
+                        <div class="skill-progress">
+                            <div class="progress-label">
+                                <span>熟练度</span>
+                                <span>75%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 75%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-tags">
+                            <span class="skill-tag">缓存策略</span>
+                            <span class="skill-tag">集群</span>
+                            <span class="skill-tag">持久化</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DevOps -->
+            <div class="skill-category">
+                <h2 class="category-title">
+                    <i class="fab fa-docker category-icon"></i>
+                    DevOps & 云服务
+                </h2>
+                <div class="skills-grid">
+                    <div class="skill-card">
+                        <div class="skill-header">
+                            <div class="skill-name">Docker</div>
+                            <div class="skill-level">熟练</div>
+                        </div>
+                        <div class="skill-description">
+                            熟练使用Docker进行应用容器化，掌握Dockerfile编写和容器编排技术。
+                        </div>
+                        <div class="skill-progress">
+                            <div class="progress-label">
+                                <span>熟练度</span>
+                                <span>80%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 80%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-tags">
+                            <span class="skill-tag">容器化</span>
+                            <span class="skill-tag">Dockerfile</span>
+                            <span class="skill-tag">Docker Compose</span>
+                        </div>
+                    </div>
+
+                    <div class="skill-card">
+                        <div class="skill-header">
+                            <div class="skill-name">AWS</div>
+                            <div class="skill-level">中级</div>
+                        </div>
+                        <div class="skill-description">
+                            了解AWS云服务，能够使用EC2、S3、RDS等服务部署和管理应用。
+                        </div>
+                        <div class="skill-progress">
+                            <div class="progress-label">
+                                <span>熟练度</span>
+                                <span>65%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 65%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-tags">
+                            <span class="skill-tag">EC2</span>
+                            <span class="skill-tag">S3</span>
+                            <span class="skill-tag">Lambda</span>
+                        </div>
+                    </div>
+
+                    <div class="skill-card">
+                        <div class="skill-header">
+                            <div class="skill-name">Git</div>
+                            <div class="skill-level">专家</div>
+                        </div>
+                        <div class="skill-description">
+                            精通Git版本控制，熟悉各种工作流程，能够处理复杂的分支管理和代码合并。
+                        </div>
+                        <div class="skill-progress">
+                            <div class="progress-label">
+                                <span>熟练度</span>
+                                <span>95%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 95%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-tags">
+                            <span class="skill-tag">分支管理</span>
+                            <span class="skill-tag">代码合并</span>
+                            <span class="skill-tag">CI/CD</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="experience-section">
+            <h2 class="experience-title">技术成长历程</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-year">2024年</div>
+                    <div class="timeline-content">
+                        深入学习AI/ML技术，开始探索人工智能在Web开发中的应用，掌握了TensorFlow.js和相关技术栈。
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">2023年</div>
+                    <div class="timeline-content">
+                        专注于全栈开发，熟练掌握React、Node.js、MongoDB技术栈，开始学习云服务和DevOps相关技术。
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">2022年</div>
+                    <div class="timeline-content">
+                        深入学习前端框架，掌握Vue.js和React，开始接触TypeScript，提升代码质量和开发效率。
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">2021年</div>
+                    <div class="timeline-content">
+                        开始系统学习Web开发，掌握HTML、CSS、JavaScript基础，建立了扎实的前端开发基础。
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 进度条动画
+        window.addEventListener('load', function() {
+            const progressBars = document.querySelectorAll('.progress-fill');
+            progressBars.forEach(bar => {
+                const width = bar.style.width;
+                bar.style.width = '0%';
+                setTimeout(() => {
+                    bar.style.width = width;
+                }, 500);
+            });
+        });
+
+        // 技能卡片动画
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.skill-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = 'all 0.6s ease';
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html> 

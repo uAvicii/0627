@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>代码智能分析器 | 项目详情</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #00ff88;
+            --secondary-color: #ff0080;
+            --accent-color: #0080ff;
+            --bg-dark: #0a0a0a;
+            --bg-darker: #050505;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --text-accent: #00ff88;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+        }
+
+        .back-link:hover {
+            gap: 1rem;
+            transform: translateX(-5px);
+        }
+
+        .project-header {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 0, 128, 0.1) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        .project-title {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, var(--secondary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            z-index: 1;
+        }
+
+        .project-subtitle {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .project-meta {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+        }
+
+        .meta-icon {
+            color: var(--secondary-color);
+        }
+
+        .project-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.5rem;
+            background: var(--secondary-color);
+            color: var(--bg-dark);
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .project-link:hover {
+            background: var(--accent-color);
+            transform: translateY(-2px);
+        }
+
+        .project-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .content-section {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .feature-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .feature-item:hover {
+            background: rgba(255, 0, 128, 0.1);
+            transform: translateX(5px);
+        }
+
+        .feature-icon {
+            color: var(--accent-color);
+            font-size: 1.2rem;
+            margin-top: 0.2rem;
+        }
+
+        .feature-content h4 {
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-content p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .tech-tag {
+            background: var(--secondary-color);
+            color: var(--bg-dark);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .demo-section {
+            background: var(--bg-darker);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .demo-input {
+            width: 100%;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 1rem;
+            color: var(--text-primary);
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            resize: vertical;
+            min-height: 200px;
+        }
+
+        .demo-button {
+            background: var(--secondary-color);
+            color: var(--bg-dark);
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .demo-button:hover {
+            background: var(--accent-color);
+            transform: translateY(-2px);
+        }
+
+        .demo-result {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        .result-item {
+            margin-bottom: 1rem;
+            padding: 0.5rem;
+            border-left: 3px solid var(--primary-color);
+            padding-left: 1rem;
+        }
+
+        .result-type {
+            color: var(--secondary-color);
+            font-weight: 600;
+        }
+
+        .result-message {
+            color: var(--text-primary);
+            margin-top: 0.5rem;
+        }
+
+        .code-block {
+            background: var(--bg-darker);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+            overflow-x: auto;
+        }
+
+        .code-block pre {
+            color: var(--text-primary);
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .code-block code {
+            color: var(--primary-color);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .project-header {
+                padding: 2rem;
+            }
+
+            .project-title {
+                font-size: 2rem;
+            }
+
+            .project-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .project-meta {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .project-links {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../index.html" class="back-link">
+            <i class="fas fa-arrow-left"></i>
+            返回首页
+        </a>
+
+        <header class="project-header">
+            <h1 class="project-title">代码智能分析器</h1>
+            <p class="project-subtitle">基于AI的代码质量检测与优化建议工具</p>
+            
+            <div class="project-meta">
+                <div class="meta-item">
+                    <i class="fas fa-calendar meta-icon"></i>
+                    <span>2024年1月 - 2024年3月</span>
+                </div>
+                <div class="meta-item">
+                    <i class="fas fa-users meta-icon"></i>
+                    <span>个人项目</span>
+                </div>
+                <div class="meta-item">
+                    <i class="fas fa-code meta-icon"></i>
+                    <span>AI/ML</span>
+                </div>
+                <div class="meta-item">
+                    <i class="fas fa-star meta-icon"></i>
+                    <span>创新项目</span>
+                </div>
+            </div>
+
+            <div class="project-links">
+                <a href="#" class="project-link">
+                    <i class="fas fa-external-link-alt"></i>
+                    在线演示
+                </a>
+                <a href="#" class="project-link">
+                    <i class="fab fa-github"></i>
+                    GitHub
+                </a>
+            </div>
+        </header>
+
+        <div class="project-content">
+            <div class="main-content">
+                <div class="content-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-info-circle"></i>
+                        项目简介
+                    </h2>
+                    <p>代码智能分析器是一个基于人工智能的代码质量检测工具，能够自动分析代码中的潜在问题、性能瓶颈和安全漏洞。通过机器学习算法，系统可以学习最佳编程实践，为开发者提供个性化的代码优化建议。</p>
+                    
+                    <p>该工具支持多种编程语言，包括JavaScript、Python、Java、C++等，能够深入分析代码结构、复杂度、可维护性等多个维度，帮助开发者提升代码质量，减少bug，提高开发效率。</p>
+                </div>
+
+                <div class="content-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-rocket"></i>
+                        核心功能
+                    </h2>
+                    <ul class="feature-list">
+                        <li class="feature-item">
+                            <i class="fas fa-search feature-icon"></i>
+                            <div class="feature-content">
+                                <h4>智能代码扫描</h4>
+                                <p>使用先进的静态分析技术，深度扫描代码中的语法错误、逻辑漏洞和潜在问题。</p>
+                            </div>
+                        </li>
+                        <li class="feature-item">
+                            <i class="fas fa-shield-alt feature-icon"></i>
+                            <div class="feature-content">
+                                <h4>安全漏洞检测</h4>
+                                <p>识别SQL注入、XSS攻击、缓冲区溢出等常见安全漏洞，提供修复建议。</p>
+                            </div>
+                        </li>
+                        <li class="feature-item">
+                            <i class="fas fa-tachometer-alt feature-icon"></i>
+                            <div class="feature-content">
+                                <h4>性能分析</h4>
+                                <p>分析代码性能瓶颈，检测时间复杂度过高的算法，提供优化方案。</p>
+                            </div>
+                        </li>
+                        <li class="feature-item">
+                            <i class="fas fa-code feature-icon"></i>
+                            <div class="feature-content">
+                                <h4>代码风格检查</h4>
+                                <p>检查代码是否符合团队规范，提供格式化和重构建议。</p>
+                            </div>
+                        </li>
+                        <li class="feature-item">
+                            <i class="fas fa-chart-line feature-icon"></i>
+                            <div class="feature-content">
+                                <h4>质量评分</h4>
+                                <p>基于多个维度对代码质量进行综合评分，生成详细的质量报告。</p>
+                            </div>
+                        </li>
+                        <li class="feature-item">
+                            <i class="fas fa-lightbulb feature-icon"></i>
+                            <div class="feature-content">
+                                <h4>智能建议</h4>
+                                <p>基于机器学习算法，提供个性化的代码改进建议和最佳实践。</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="content-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-play"></i>
+                        在线演示
+                    </h2>
+                    <p>在下方输入框中粘贴您的代码，点击"分析代码"按钮体验智能分析功能：</p>
+                    
+                    <div class="demo-section">
+                        <textarea class="demo-input" placeholder="请在此处粘贴您的代码...">
+function calculateSum(arr) {
+    var sum = 0;
+    for (var i = 0; i < arr.length; i++) {
+        sum += arr[i];
+    }
+    return sum;
+}
+
+// 示例调用
+var numbers = [1, 2, 3, 4, 5];
+console.log(calculateSum(numbers));
+                        </textarea>
+                        <button class="demo-button" onclick="analyzeCode()">
+                            <i class="fas fa-play"></i>
+                            分析代码
+                        </button>
+                        
+                        <div class="demo-result" id="analysisResult">
+                            <div class="result-item">
+                                <div class="result-type">代码风格建议</div>
+                                <div class="result-message">建议使用 const/let 替代 var，使用现代ES6语法</div>
+                            </div>
+                            <div class="result-item">
+                                <div class="result-type">性能优化</div>
+                                <div class="result-message">可以使用 Array.reduce() 方法简化代码并提高可读性</div>
+                            </div>
+                            <div class="result-item">
+                                <div class="result-type">质量评分</div>
+                                <div class="result-message">代码质量：75/100 - 良好，有改进空间</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-code"></i>
+                        技术实现
+                    </h2>
+                    <p>系统采用Python作为主要开发语言，使用TensorFlow构建机器学习模型，通过AST（抽象语法树）分析代码结构，结合规则引擎和AI算法进行综合分析。</p>
+                    
+                    <div class="code-block">
+                        <pre><code># 代码复杂度分析示例
+import ast
+
+class ComplexityAnalyzer(ast.NodeVisitor):
+    def __init__(self):
+        self.complexity = 1
+        
+    def visit_If(self, node):
+        self.complexity += 1
+        self.generic_visit(node)
+        
+    def visit_For(self, node):
+        self.complexity += 1
+        self.generic_visit(node)
+        
+    def visit_While(self, node):
+        self.complexity += 1
+        self.generic_visit(node)
+        
+    def analyze(self, code):
+        tree = ast.parse(code)
+        self.visit(tree)
+        return self.complexity</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar">
+                <div class="content-section">
+                    <h3 class="section-title">
+                        <i class="fas fa-tools"></i>
+                        技术栈
+                    </h3>
+                    <div class="tech-stack">
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">TensorFlow</span>
+                        <span class="tech-tag">Flask</span>
+                        <span class="tech-tag">AST</span>
+                        <span class="tech-tag">NumPy</span>
+                        <span class="tech-tag">Pandas</span>
+                        <span class="tech-tag">React</span>
+                        <span class="tech-tag">Docker</span>
+                        <span class="tech-tag">Redis</span>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <h3 class="section-title">
+                        <i class="fas fa-language"></i>
+                        支持语言
+                    </h3>
+                    <ul class="feature-list">
+                        <li class="feature-item">
+                            <i class="fab fa-js-square feature-icon"></i>
+                            <div class="feature-content">
+                                <h4>JavaScript</h4>
+                                <p>ES6+语法支持</p>
+                            </div>
+                        </li>
+                        <li class="feature-item">
+                            <i class="fab fa-python feature-icon"></i>
+                            <div class="feature-content">
+                                <h4>Python</h4>
+                                <p>Python 3.x完整支持</p>
+                            </div>
+                        </li>
+                        <li class="feature-item">
+                            <i class="fab fa-java feature-icon"></i>
+                            <div class="feature-content">
+                                <h4>Java</h4>
+                                <p>Java 8+特性支持</p>
+                            </div>
+                        </li>
+                        <li class="feature-item">
+                            <i class="fas fa-code feature-icon"></i>
+                            <div class="feature-content">
+                                <h4>C/C++</h4>
+                                <p>现代C++标准</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="content-section">
+                    <h3 class="section-title">
+                        <i class="fas fa-chart-bar"></i>
+                        分析指标
+                    </h3>
+                    <ul class="feature-list">
+                        <li class="feature-item">
+                            <i class="fas fa-complexity feature-icon"></i>
+                            <div class="feature-content">
+                                <h4>圈复杂度</h4>
+                                <p>代码逻辑复杂度评估</p>
+                            </div>
+                        </li>
+                        <li class="feature-item">
+                            <i class="fas fa-layer-group feature-icon"></i>
+                            <div class="feature-content">
+                                <h4>耦合度</h4>
+                                <p>模块间依赖关系分析</p>
+                            </div>
+                        </li>
+                        <li class="feature-item">
+                            <i class="fas fa-expand-arrows-alt feature-icon"></i>
+                            <div class="feature-content">
+                                <h4>代码重复</h4>
+                                <p>重复代码检测</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function analyzeCode() {
+            const resultDiv = document.getElementById('analysisResult');
+            const button = document.querySelector('.demo-button');
+            
+            // 显示加载状态
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 分析中...';
+            button.disabled = true;
+            
+            // 模拟分析过程
+            setTimeout(() => {
+                resultDiv.style.display = 'block';
+                button.innerHTML = '<i class="fas fa-play"></i> 分析代码';
+                button.disabled = false;
+            }, 2000);
+        }
+
+        // 页面加载动画
+        window.addEventListener('load', function() {
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach((section, index) => {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(30px)';
+                setTimeout(() => {
+                    section.style.transition = 'all 0.6s ease';
+                    section.style.opacity = '1';
+                    section.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+        });
+
+        // 滚动动画
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.feature-item').forEach(item => {
+            item.style.opacity = '0';
+            item.style.transform = 'translateY(20px)';
+            item.style.transition = 'all 0.6s ease';
+            observer.observe(item);
+        });
+    </script>
+</body>
+</html> 

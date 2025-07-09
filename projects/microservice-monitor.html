@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微服务监控平台 | 项目详情</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #00ff88;
+            --secondary-color: #ff0080;
+            --accent-color: #0080ff;
+            --warning-color: #ffaa00;
+            --error-color: #ff4444;
+            --bg-dark: #0a0a0a;
+            --bg-darker: #050505;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --text-accent: #00ff88;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+        }
+
+        .back-link:hover {
+            gap: 1rem;
+            transform: translateX(-5px);
+        }
+
+        .project-header {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 170, 0, 0.1) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        .project-title {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, var(--warning-color), var(--error-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            z-index: 1;
+        }
+
+        .project-subtitle {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .project-meta {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+        }
+
+        .meta-icon {
+            color: var(--warning-color);
+        }
+
+        .project-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.5rem;
+            background: var(--warning-color);
+            color: var(--bg-dark);
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .project-link:hover {
+            background: var(--error-color);
+            transform: translateY(-2px);
+        }
+
+        .project-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .content-section {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: var(--warning-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .monitoring-dashboard {
+            background: var(--bg-darker);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .metric-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(255, 170, 0, 0.2);
+        }
+
+        .metric-value {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-value.healthy {
+            color: var(--primary-color);
+        }
+
+        .metric-value.warning {
+            color: var(--warning-color);
+        }
+
+        .metric-value.error {
+            color: var(--error-color);
+        }
+
+        .metric-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .service-status {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .service-item {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .service-status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .service-status-indicator.healthy {
+            background: var(--primary-color);
+            box-shadow: 0 0 10px var(--primary-color);
+        }
+
+        .service-status-indicator.warning {
+            background: var(--warning-color);
+            box-shadow: 0 0 10px var(--warning-color);
+        }
+
+        .service-status-indicator.error {
+            background: var(--error-color);
+            box-shadow: 0 0 10px var(--error-color);
+        }
+
+        .service-info h4 {
+            color: var(--text-primary);
+            margin-bottom: 0.2rem;
+        }
+
+        .service-info p {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+        }
+
+        .feature-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .feature-item:hover {
+            background: rgba(255, 170, 0, 0.1);
+            transform: translateX(5px);
+        }
+
+        .feature-icon {
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            margin-top: 0.2rem;
+        }
+
+        .feature-content h4 {
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-content p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .tech-tag {
+            background: var(--warning-color);
+            color: var(--bg-dark);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .code-block {
+            background: var(--bg-darker);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+            overflow-x: auto;
+        }
+
+        .code-block pre {
+            color: var(--text-primary);
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .code-block code {
+            color: var(--warning-color);
+        }
+
+        .alert-section {
+            background: var(--card-bg);
+            border: 1px solid var(--error-color);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .alert-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .alert-icon {
+            color: var(--error-color);
+            font-size: 1.2rem;
+        }
+
+        .alert-title {
+            color: var(--error-color);
+            font-weight: 600;
+        }
+
+        .alert-list {
+            list-style: none;
+        }
+
+        .alert-item {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+
+        .alert-item:last-child {
+            border-bottom: none;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .project-header {
+                padding: 2rem;
+            }
+
+            .project-title {
+                font-size: 2rem;
+            }
+
+            .project-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .metrics-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .service-status {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../index.html" class="back-link">
+            <i class="fas fa-arrow-left"></i>
+            返回首页
+        </a>
+
+        <header class="project-header">
+            <h1 class="project-title">微服务监控平台</h1>
+            <p class="project-subtitle">为微服务架构设计的实时监控与告警系统</p>
+            
+            <div class="project-meta">
+                <div class="meta-item">
+                    <i class="fas fa-calendar meta-icon"></i>
+                    <span>2024年2月 - 2024年4月</span>
+                </div>
+                <div class="meta-item">
+                    <i class="fas fa-users meta-icon"></i>
+                    <span>团队项目</span>
+                </div>
+                <div class="meta-item">
+                    <i class="fas fa-server meta-icon"></i>
+                    <span>DevOps工具</span>
+                </div>
+                <div class="meta-item">
+                    <i class="fas fa-fire meta-icon"></i>
+                    <span>企业级</span>
+                </div>
+            </div>
+
+            <div class="project-links">
+                <a href="#" class="project-link">
+                    <i class="fas fa-external-link-alt"></i>
+                    在线演示
+                </a>
+                <a href="#" class="project-link">
+                    <i class="fab fa-github"></i>
+                    GitHub
+                </a>
+            </div>
+        </header>
+
+        <div class="project-content">
+            <div class="main-content">
+                <div class="content-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-info-circle"></i>
+                        项目简介
+                    </h2>
+                    <p>微服务监控平台是一个专为微服务架构设计的综合性监控解决方案。它能够实时监控服务状态、性能指标、资源使用情况，并提供智能告警和故障诊断功能。</p>
+                    
+                    <p>该平台支持多种监控指标收集方式，包括主动探测、被动监听和日志分析。通过可视化的仪表盘和灵活的告警规则，帮助运维团队快速发现和解决问题，确保系统稳定运行。</p>
+                </div>
+
+                <div class="content-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-rocket"></i>
+                        核心功能
+                    </h2>
+                    <ul class="feature-list">
+                        <li class="feature-item">
+                            <i class="fas fa-chart-line feature-icon"></i>
+                            <div class="feature-content">
+                                <h4>实时监控</h4>
+                                <p>实时监控服务状态、响应时间、吞吐量等关键指标，提供秒级数据更新。</p>
+                            </div>
+                        </li>
+                        <li class="feature-item">
+                            <i class="fas fa-bell feature-icon"></i>
+                            <div class="feature-content">
+                                <h4>智能告警</h4>
+                                <p>基于机器学习的异常检测，支持多种告警方式和自定义规则配置。</p>
+                            </div>
+                        </li>
+                        <li class="feature-item">
+                            <i class="fas fa-search feature-icon"></i>
+                            <div class="feature-content">
+                                <h4>链路追踪</h4>
+                                <p>完整的分布式链路追踪，快速定位性能瓶颈和错误源头。</p>
+                            </div>
+                        </li>
+                        <li class="feature-item">
+                            <i class="fas fa-database feature-icon"></i>
+                            <div class="feature-content">
+                                <h4>日志聚合</h4>
+                                <p>集中化日志收集和分析，支持全文搜索和实时流处理。</p>
+                            </div>
+                        </li>
+                        <li class="feature-item">
+                            <i class="fas fa-tachometer-alt feature-icon"></i>
+                            <div class="feature-content">
+                                <h4>性能分析</h4>
+                                <p>深度性能分析，包括CPU、内存、网络等资源使用情况。</p>
+                            </div>
+                        </li>
+                        <li class="feature-item">
+                            <i class="fas fa-cog feature-icon"></i>
+                            <div class="feature-content">
+                                <h4>自动化运维</h4>
+                                <p>支持自动扩缩容、故障自愈和运维脚本自动执行。</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="content-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-chart-bar"></i>
+                        实时监控面板
+                    </h2>
+                    <p>以下是系统的实时监控数据：</p>
+                    
+                    <div class="monitoring-dashboard">
+                        <div class="metrics-grid">
+                            <div class="metric-card">
+                                <div class="metric-value healthy">99.8%</div>
+                                <div class="metric-label">系统可用性</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-value healthy">42ms</div>
+                                <div class="metric-label">平均响应时间</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-value warning">1,247</div>
+                                <div class="metric-label">每秒请求数</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-value healthy">0.02%</div>
+                                <div class="metric-label">错误率</div>
+                            </div>
+                        </div>
+
+                        <h3 style="color: var(--text-primary); margin-bottom: 1rem;">服务状态</h3>
+                        <div class="service-status">
+                            <div class="service-item">
+                                <div class="service-status-indicator healthy"></div>
+                                <div class="service-info">
+                                    <h4>API Gateway</h4>
+                                    <p>运行正常 · 3个实例</p>
+                                </div>
+                            </div>
+                            <div class="service-item">
+                                <div class="service-status-indicator healthy"></div>
+                                <div class="service-info">
+                                    <h4>User Service</h4>
+                                    <p>运行正常 · 5个实例</p>
+                                </div>
+                            </div>
+                            <div class="service-item">
+                                <div class="service-status-indicator warning"></div>
+                                <div class="service-info">
+                                    <h4>Order Service</h4>
+                                    <p>高负载 · 4个实例</p>
+                                </div>
+                            </div>
+                            <div class="service-item">
+                                <div class="service-status-indicator healthy"></div>
+                                <div class="service-info">
+                                    <h4>Payment Service</h4>
+                                    <p>运行正常 · 2个实例</p>
+                                </div>
+                            </div>
+                            <div class="service-item">
+                                <div class="service-status-indicator healthy"></div>
+                                <div class="service-info">
+                                    <h4>Notification Service</h4>
+                                    <p>运行正常 · 3个实例</p>
+                                </div>
+                            </div>
+                            <div class="service-item">
+                                <div class="service-status-indicator error"></div>
+                                <div class="service-info">
+                                    <h4>Analytics Service</h4>
+                                    <p>连接异常 · 1个实例</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-code"></i>
+                        技术实现
+                    </h2>
+                    <p>平台采用云原生架构，使用Kubernetes进行容器编排，Prometheus进行指标收集，Grafana进行数据可视化。</p>
+                    
+                    <div class="code-block">
+                        <pre><code># Kubernetes监控配置
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: microservice-monitor
+spec:
+  selector:
+    matchLabels:
+      app: microservice
+  endpoints:
+  - port: metrics
+    interval: 30s
+    path: /metrics
+
+---
+# Prometheus告警规则
+groups:
+- name: microservice.rules
+  rules:
+  - alert: HighErrorRate
+    expr: rate(http_requests_total{status=~"5.."}[5m]) > 0.1
+    for: 5m
+    labels:
+      severity: critical
+    annotations:
+      summary: "High error rate detected"
+      description: "Error rate is above 10% for 5 minutes"</code></pre>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        告警中心
+                    </h2>
+                    <div class="alert-section">
+                        <div class="alert-header">
+                            <i class="fas fa-bell alert-icon"></i>
+                            <span class="alert-title">当前告警 (2个)</span>
+                        </div>
+                        <ul class="alert-list">
+                            <li class="alert-item">
+                                <strong>Analytics Service</strong> - 服务不可用 · 2分钟前
+                            </li>
+                            <li class="alert-item">
+                                <strong>Order Service</strong> - CPU使用率过高 (85%) · 5分钟前
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar">
+                <div class="content-section">
+                    <h3 class="section-title">
+                        <i class="fas fa-tools"></i>
+                        技术栈
+                    </h3>
+                    <div class="tech-stack">
+                        <span class="tech-tag">Go</span>
+                        <span class="tech-tag">Kubernetes</span>
+                        <span class="tech-tag">Prometheus</span>
+                        <span class="tech-tag">Grafana</span>
+                        <span class="tech-tag">Docker</span>
+                        <span class="tech-tag">Elasticsearch</span>
+                        <span class="tech-tag">Redis</span>
+                        <span class="tech-tag">React</span>
+                        <span class="tech-tag">TypeScript</span>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <h3 class="section-title">
+                        <i class="fas fa-chart-pie"></i>
+                        监控指标
+                    </h3>
+                    <ul class="feature-list">
+                        <li class="feature-item">
+                            <i class="fas fa-heartbeat feature-icon"></i>
+                            <div class="feature-content">
+                                <h4>健康检查</h4>
+                                <p>服务存活状态监控</p>
+                            </div>
+                        </li>
+                        <li class="feature-item">
+                            <i class="fas fa-stopwatch feature-icon"></i>
+                            <div class="feature-content">
+                                <h4>响应时间</h4>
+                                <p>API响应时间统计</p>
+                            </div>
+                        </li>
+                        <li class="feature-item">
+                            <i class="fas fa-exchange-alt feature-icon"></i>
+                            <div class="feature-content">
+                                <h4>吞吐量</h4>
+                                <p>请求处理能力监控</p>
+                            </div>
+                        </li>
+                        <li class="feature-item">
+                            <i class="fas fa-exclamation-circle feature-icon"></i>
+                            <div class="feature-content">
+                                <h4>错误率</h4>
+                                <p>系统错误统计分析</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="content-section">
+                    <h3 class="section-title">
+                        <i class="fas fa-cogs"></i>
+                        部署环境
+                    </h3>
+                    <ul class="feature-list">
+                        <li class="feature-item">
+                            <i class="fas fa-cloud feature-icon"></i>
+                            <div class="feature-content">
+                                <h4>云环境</h4>
+                                <p>AWS/阿里云/腾讯云</p>
+                            </div>
+                        </li>
+                        <li class="feature-item">
+                            <i class="fas fa-server feature-icon"></i>
+                            <div class="feature-content">
+                                <h4>容器化</h4>
+                                <p>Docker + Kubernetes</p>
+                            </div>
+                        </li>
+                        <li class="feature-item">
+                            <i class="fas fa-network-wired feature-icon"></i>
+                            <div class="feature-content">
+                                <h4>服务网格</h4>
+                                <p>Istio服务治理</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 模拟实时数据更新
+        function updateMetrics() {
+            const metrics = document.querySelectorAll('.metric-value');
+            
+            // 模拟数据变化
+            const updates = [
+                { index: 0, value: (99.5 + Math.random() * 0.5).toFixed(1) + '%' },
+                { index: 1, value: Math.floor(40 + Math.random() * 20) + 'ms' },
+                { index: 2, value: Math.floor(1200 + Math.random() * 100).toLocaleString() },
+                { index: 3, value: (Math.random() * 0.05).toFixed(3) + '%' }
+            ];
+            
+            updates.forEach(update => {
+                if (metrics[update.index]) {
+                    metrics[update.index].textContent = update.value;
+                }
+            });
+        }
+
+        // 每10秒更新一次数据
+        setInterval(updateMetrics, 10000);
+
+        // 页面加载动画
+        window.addEventListener('load', function() {
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach((section, index) => {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(30px)';
+                setTimeout(() => {
+                    section.style.transition = 'all 0.6s ease';
+                    section.style.opacity = '1';
+                    section.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+        });
+
+        // 滚动动画
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.feature-item, .metric-card, .service-item').forEach(item => {
+            item.style.opacity = '0';
+            item.style.transform = 'translateY(20px)';
+            item.style.transition = 'all 0.6s ease';
+            observer.observe(item);
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>极简笔记应用 | 项目详情</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #00ff88;
+            --secondary-color: #ff0080;
+            --accent-color: #0080ff;
+            --bg-dark: #0a0a0a;
+            --bg-darker: #050505;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --text-accent: #00ff88;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+        }
+
+        .back-link:hover {
+            gap: 1rem;
+            transform: translateX(-5px);
+        }
+
+        .project-header {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0, 128, 255, 0.1) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        .project-title {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, var(--accent-color), var(--primary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            z-index: 1;
+        }
+
+        .project-subtitle {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .project-meta {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+        }
+
+        .meta-icon {
+            color: var(--accent-color);
+        }
+
+        .project-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.5rem;
+            background: var(--accent-color);
+            color: var(--bg-dark);
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .project-link:hover {
+            background: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .project-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .content-section {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .feature-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .feature-item:hover {
+            background: rgba(0, 128, 255, 0.1);
+            transform: translateX(5px);
+        }
+
+        .feature-icon {
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            margin-top: 0.2rem;
+        }
+
+        .feature-content h4 {
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-content p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .tech-tag {
+            background: var(--accent-color);
+            color: var(--bg-dark);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .app-demo {
+            background: var(--bg-darker);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .demo-app {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            overflow: hidden;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .demo-header {
+            background: var(--accent-color);
+            color: var(--bg-dark);
+            padding: 1rem;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .demo-content {
+            padding: 1.5rem;
+        }
+
+        .demo-input {
+            width: 100%;
+            background: var(--bg-darker);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 0.8rem;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .demo-textarea {
+            width: 100%;
+            background: var(--bg-darker);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 0.8rem;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            resize: vertical;
+            min-height: 120px;
+            margin-bottom: 1rem;
+        }
+
+        .demo-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .demo-button {
+            background: var(--primary-color);
+            color: var(--bg-dark);
+            border: none;
+            padding: 0.6rem 1rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .demo-button:hover {
+            background: var(--secondary-color);
+        }
+
+        .demo-notes {
+            margin-top: 1.5rem;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .demo-note {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .demo-note-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .demo-note-content {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .demo-note-date {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+        }
+
+        .code-block {
+            background: var(--bg-darker);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+            overflow-x: auto;
+        }
+
+        .code-block pre {
+            color: var(--text-primary);
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .code-block code {
+            color: var(--primary-color);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .project-header {
+                padding: 2rem;
+            }
+
+            .project-title {
+                font-size: 2rem;
+            }
+
+            .project-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .project-meta {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .project-links {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../index.html" class="back-link">
+            <i class="fas fa-arrow-left"></i>
+            返回首页
+        </a>
+
+        <header class="project-header">
+            <h1 class="project-title">极简笔记应用</h1>
+            <p class="project-subtitle">简洁高效的个人笔记管理工具</p>
+            
+            <div class="project-meta">
+                <div class="meta-item">
+                    <i class="fas fa-calendar meta-icon"></i>
+                    <span>2023年10月 - 2023年12月</span>
+                </div>
+                <div class="meta-item">
+                    <i class="fas fa-users meta-icon"></i>
+                    <span>个人项目</span>
+                </div>
+                <div class="meta-item">
+                    <i class="fas fa-mobile-alt meta-icon"></i>
+                    <span>移动端</span>
+                </div>
+                <div class="meta-item">
+                    <i class="fas fa-heart meta-icon"></i>
+                    <span>热门项目</span>
+                </div>
+            </div>
+
+            <div class="project-links">
+                <a href="#" class="project-link">
+                    <i class="fas fa-external-link-alt"></i>
+                    在线演示
+                </a>
+                <a href="#" class="project-link">
+                    <i class="fab fa-github"></i>
+                    GitHub
+                </a>
+            </div>
+        </header>
+
+        <div class="project-content">
+            <div class="main-content">
+                <div class="content-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-info-circle"></i>
+                        项目简介
+                    </h2>
+                    <p>极简笔记应用是一个专注于简洁和高效的个人笔记管理工具。遵循"少即是多"的设计理念，去除所有不必要的功能，只保留最核心的笔记创建、编辑、搜索和同步功能。</p>
+                    
+                    <p>应用采用极简主义设计风格，界面清爽简洁，操作流畅自然。支持Markdown语法，提供实时预览功能，让用户能够专注于内容创作而不被复杂的界面所干扰。</p>
+                </div>
+
+                <div class="content-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-rocket"></i>
+                        核心功能
+                    </h2>
+                    <ul class="feature-list">
+                        <li class="feature-item">
+                            <i class="fas fa-edit feature-icon"></i>
+                            <div class="feature-content">
+                                <h4>快速创建笔记</h4>
+                                <p>一键创建新笔记，支持快捷键操作，让记录想法变得更加便捷。</p>
+                            </div>
+                        </li>
+                        <li class="feature-item">
+                            <i class="fab fa-markdown feature-icon"></i>
+                            <div class="feature-content">
+                                <h4>Markdown支持</h4>
+                                <p>完整支持Markdown语法，提供实时预览功能，让文本格式化变得简单。</p>
+                            </div>
+                        </li>
+                        <li class="feature-item">
+                            <i class="fas fa-search feature-icon"></i>
+                            <div class="feature-content">
+                                <h4>智能搜索</h4>
+                                <p>支持全文搜索和标签搜索，快速找到需要的笔记内容。</p>
+                            </div>
+                        </li>
+                        <li class="feature-item">
+                            <i class="fas fa-tags feature-icon"></i>
+                            <div class="feature-content">
+                                <h4>标签管理</h4>
+                                <p>灵活的标签系统，帮助用户更好地组织和分类笔记。</p>
+                            </div>
+                        </li>
+                        <li class="feature-item">
+                            <i class="fas fa-cloud feature-icon"></i>
+                            <div class="feature-content">
+                                <h4>云端同步</h4>
+                                <p>自动同步到云端，确保数据安全，支持多设备访问。</p>
+                            </div>
+                        </li>
+                        <li class="feature-item">
+                            <i class="fas fa-moon feature-icon"></i>
+                            <div class="feature-content">
+                                <h4>深色模式</h4>
+                                <p>支持深色模式，减少眼部疲劳，适合长时间使用。</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="content-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-play"></i>
+                        应用演示
+                    </h2>
+                    <p>下面是应用的交互演示，您可以尝试添加和查看笔记：</p>
+                    
+                    <div class="app-demo">
+                        <div class="demo-app">
+                            <div class="demo-header">
+                                <i class="fas fa-sticky-note"></i>
+                                极简笔记
+                            </div>
+                            <div class="demo-content">
+                                <input type="text" class="demo-input" placeholder="笔记标题..." id="noteTitle">
+                                <textarea class="demo-textarea" placeholder="在这里写下您的想法..." id="noteContent"></textarea>
+                                <div class="demo-buttons">
+                                    <button class="demo-button" onclick="addNote()">
+                                        <i class="fas fa-plus"></i> 添加笔记
+                                    </button>
+                                    <button class="demo-button" onclick="clearNotes()">
+                                        <i class="fas fa-trash"></i> 清空
+                                    </button>
+                                </div>
+                                <div class="demo-notes" id="notesList">
+                                    <div class="demo-note">
+                                        <div class="demo-note-title">示例笔记</div>
+                                        <div class="demo-note-content">这是一个示例笔记，展示了应用的基本功能。您可以在上方添加新的笔记。</div>
+                                        <div class="demo-note-date">2024-01-15 10:30</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-code"></i>
+                        技术实现
+                    </h2>
+                    <p>应用使用React Native开发，确保在iOS和Android平台上都能提供原生般的体验。数据存储使用SQLite本地数据库，同时支持云端同步。</p>
+                    
+                    <div class="code-block">
+                        <pre><code>// 笔记数据模型
+interface Note {
+  id: string;
+  title: string;
+  content: string;
+  tags: string[];
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+// 笔记管理Hook
+const useNotes = () => {
+  const [notes, setNotes] = useState<Note[]>([]);
+  
+  const addNote = useCallback((note: Omit<Note, 'id' | 'createdAt' | 'updatedAt'>) => {
+    const newNote: Note = {
+      ...note,
+      id: generateId(),
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+    setNotes(prev => [newNote, ...prev]);
+  }, []);
+  
+  return { notes, addNote };
+};</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar">
+                <div class="content-section">
+                    <h3 class="section-title">
+                        <i class="fas fa-tools"></i>
+                        技术栈
+                    </h3>
+                    <div class="tech-stack">
+                        <span class="tech-tag">React Native</span>
+                        <span class="tech-tag">TypeScript</span>
+                        <span class="tech-tag">SQLite</span>
+                        <span class="tech-tag">AsyncStorage</span>
+                        <span class="tech-tag">React Navigation</span>
+                        <span class="tech-tag">Styled Components</span>
+                        <span class="tech-tag">Firebase</span>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <h3 class="section-title">
+                        <i class="fas fa-mobile-alt"></i>
+                        平台支持
+                    </h3>
+                    <ul class="feature-list">
+                        <li class="feature-item">
+                            <i class="fab fa-apple feature-icon"></i>
+                            <div class="feature-content">
+                                <h4>iOS</h4>
+                                <p>iOS 12.0+</p>
+                            </div>
+                        </li>
+                        <li class="feature-item">
+                            <i class="fab fa-android feature-icon"></i>
+                            <div class="feature-content">
+                                <h4>Android</h4>
+                                <p>Android 8.0+</p>
+                            </div>
+                        </li>
+                        <li class="feature-item">
+                            <i class="fas fa-globe feature-icon"></i>
+                            <div class="feature-content">
+                                <h4>Web</h4>
+                                <p>现代浏览器支持</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="content-section">
+                    <h3 class="section-title">
+                        <i class="fas fa-star"></i>
+                        用户反馈
+                    </h3>
+                    <ul class="feature-list">
+                        <li class="feature-item">
+                            <i class="fas fa-quote-left feature-icon"></i>
+                            <div class="feature-content">
+                                <h4>简洁高效</h4>
+                                <p>"界面简洁，功能实用，正是我需要的笔记应用"</p>
+                            </div>
+                        </li>
+                        <li class="feature-item">
+                            <i class="fas fa-quote-left feature-icon"></i>
+                            <div class="feature-content">
+                                <h4>快速便捷</h4>
+                                <p>"启动速度快，操作流畅，记录想法非常方便"</p>
+                            </div>
+                        </li>
+                        <li class="feature-item">
+                            <i class="fas fa-quote-left feature-icon"></i>
+                            <div class="feature-content">
+                                <h4>跨平台同步</h4>
+                                <p>"多设备同步很稳定，数据从不丢失"</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let noteId = 2;
+        
+        function addNote() {
+            const title = document.getElementById('noteTitle').value;
+            const content = document.getElementById('noteContent').value;
+            
+            if (!title.trim() || !content.trim()) {
+                alert('请输入标题和内容');
+                return;
+            }
+            
+            const notesList = document.getElementById('notesList');
+            const noteDiv = document.createElement('div');
+            noteDiv.className = 'demo-note';
+            
+            const now = new Date();
+            const dateStr = now.toLocaleString('zh-CN', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            
+            noteDiv.innerHTML = `
+                <div class="demo-note-title">${title}</div>
+                <div class="demo-note-content">${content}</div>
+                <div class="demo-note-date">${dateStr}</div>
+            `;
+            
+            notesList.insertBefore(noteDiv, notesList.firstChild);
+            
+            // 清空输入框
+            document.getElementById('noteTitle').value = '';
+            document.getElementById('noteContent').value = '';
+            
+            // 添加动画效果
+            noteDiv.style.opacity = '0';
+            noteDiv.style.transform = 'translateY(-20px)';
+            setTimeout(() => {
+                noteDiv.style.transition = 'all 0.3s ease';
+                noteDiv.style.opacity = '1';
+                noteDiv.style.transform = 'translateY(0)';
+            }, 100);
+        }
+        
+        function clearNotes() {
+            const notesList = document.getElementById('notesList');
+            notesList.innerHTML = '';
+        }
+        
+        // 支持回车键添加笔记
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.key === 'Enter') {
+                addNote();
+            }
+        });
+
+        // 页面加载动画
+        window.addEventListener('load', function() {
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach((section, index) => {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(30px)';
+                setTimeout(() => {
+                    section.style.transition = 'all 0.6s ease';
+                    section.style.opacity = '1';
+                    section.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+        });
+
+        // 滚动动画
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.feature-item').forEach(item => {
+            item.style.opacity = '0';
+            item.style.transform = 'translateY(20px)';
+            item.style.transition = 'all 0.6s ease';
+            observer.observe(item);
+        });
+    </script>
+</body>
+</html> 
