@@ -992,12 +992,14 @@
             border: 1px solid var(--border-color);
             border-radius: 20px;
             padding: 2rem;
-            max-width: 400px;
+            max-width: 450px;
             width: 90%;
             backdrop-filter: blur(20px);
             position: relative;
             transform: scale(0.8);
             transition: all 0.3s ease;
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
         .modal-overlay.active .modal-content {
@@ -1046,18 +1048,48 @@
         }
 
         .qr-code {
-            width: 200px;
-            height: 200px;
+            max-width: 280px;
+            width: auto;
+            height: auto;
             border-radius: 15px;
             margin-bottom: 1rem;
             border: 2px solid var(--primary-color);
             box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+            object-fit: contain;
+            display: block;
         }
 
         .modal-body p {
             color: var(--text-secondary);
             margin: 0;
             font-size: 1rem;
+        }
+
+        /* 移动端二维码弹窗优化 */
+        @media (max-width: 768px) {
+            .modal-content {
+                max-width: 350px;
+                padding: 1.5rem;
+            }
+            
+            .qr-code {
+                max-width: 250px;
+            }
+            
+            .modal-header h3 {
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .modal-content {
+                max-width: 320px;
+                padding: 1rem;
+            }
+            
+            .qr-code {
+                max-width: 220px;
+            }
         }
 
         /* 页脚 */
