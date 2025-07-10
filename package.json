@@ -1,7 +1,7 @@
 {
   "name": "college-admission-report",
   "version": "1.0.0",
-  "description": "江西省高考志愿填报分析报告",
+  "description": "pepe",
   "main": "college_admission_report.html",
   "scripts": {
     "start": "serve ."
