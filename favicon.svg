@@ -26,35 +26,34 @@
     </filter>
   </defs>
   
-  <!-- 黑色背景 -->
-  <rect width="100" height="100" fill="#0a0a0a"/>
+  <!-- 透明背景，移除黑色背景 -->
   
   <!-- 外层六边形框架 -->
   <g filter="url(#glow)">
     <path d="M25 35 L50 15 L75 35 L75 65 L50 85 L25 65 Z" 
-          fill="none" 
+          fill="rgba(0,255,136,0.1)" 
           stroke="url(#primaryGrad)" 
-          stroke-width="2"
-          opacity="0.8">
-      <animate attributeName="stroke-width" values="2;3;2" dur="2s" repeatCount="indefinite"/>
+          stroke-width="2.5"
+          opacity="0.9">
+      <animate attributeName="stroke-width" values="2.5;3.5;2.5" dur="2s" repeatCount="indefinite"/>
     </path>
   </g>
   
   <!-- 内层发光核心 -->
   <g filter="url(#pulse)">
-    <circle cx="50" cy="50" r="12" fill="url(#primaryGrad)" opacity="0.6">
+    <circle cx="50" cy="50" r="12" fill="url(#primaryGrad)" opacity="0.8">
       <animate attributeName="r" values="12;15;12" dur="1.5s" repeatCount="indefinite"/>
-      <animate attributeName="opacity" values="0.6;0.9;0.6" dur="1.5s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.8;1;0.8" dur="1.5s" repeatCount="indefinite"/>
     </circle>
   </g>
   
   <!-- 科技感线条 -->
-  <g stroke="#00ff88" stroke-width="1.5" fill="none" opacity="0.8">
-    <path d="M35 42 L50 50 L65 42">
-      <animate attributeName="opacity" values="0.8;1;0.8" dur="1s" repeatCount="indefinite"/>
+  <g stroke="#00ff88" stroke-width="2" fill="none" opacity="0.9">
+    <path d="M35 42 L50 50 L65 42" filter="url(#glow)">
+      <animate attributeName="opacity" values="0.9;1;0.9" dur="1s" repeatCount="indefinite"/>
     </path>
-    <path d="M35 58 L50 50 L65 58">
-      <animate attributeName="opacity" values="0.8;1;0.8" dur="1s" repeatCount="indefinite" begin="0.5s"/>
+    <path d="M35 58 L50 50 L65 58" filter="url(#glow)">
+      <animate attributeName="opacity" values="0.9;1;0.9" dur="1s" repeatCount="indefinite" begin="0.5s"/>
     </path>
   </g>
   
@@ -76,9 +75,10 @@
   
   <!-- 品牌标识 -->
   <text x="50" y="28" text-anchor="middle" fill="#00ff88" 
-        font-family="monospace" font-size="9" font-weight="bold">
+        font-family="monospace" font-size="10" font-weight="bold"
+        filter="url(#glow)">
     uA
-    <animate attributeName="opacity" values="1;0.7;1" dur="3s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="1;0.8;1" dur="3s" repeatCount="indefinite"/>
   </text>
   
   <!-- 底部小点 -->
